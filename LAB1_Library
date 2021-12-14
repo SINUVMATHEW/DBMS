@@ -1,0 +1,42 @@
+create database library;
+use library;
+
+create table Lang(Lang_id int not null,Nam varchar(20),
+primary key (Lang_id));
+
+create table Publisher(Publisher_id int not null,Pub_Name varchar(20),Address varchar(30),
+primary key(Publisher_id));
+
+create  table Book(Book_id int not null,Title varchar(20),Lang_id int,MRP float(6,2),Publisher_id
+ int, Published_Date date,Volume int,Stat varchar(20),
+  primary key (Book_id),
+  foreign key (Lang_id) references Lang(Lang_id),
+  foreign key (Publisher_id) references Publisher(Publisher_id));
+  
+create table Author(Author_id int not null,Nam varchar(20),Email Varchar(20),Phone_no long ,Stat varchar(20),
+primary key (Author_id));
+
+create table Book_Author(Book_id int not null,Author_id int not null,
+primary key (Book_id,Author_id),
+  foreign key (Book_id) references Book(Book_id),
+  foreign key (Author_id) references Author(Author_id));
+  
+
+create table Member(Member_id int not null,Nam varchar(20),Branch_code varchar(10),Roll_No  int,Phone_No long,
+Email varchar(30),Date_of_Join date,Stat varchar(20),
+primary key(Member_id));
+
+create table Book_Issue(Issue_id int not null,Date_of_Issue date,Book_id int,Member_id int,Exp_Date_of_Ret date,
+Stat varchar(20),
+primary key(Issue_id),
+  foreign key (Book_id) references Book(Book_id),
+  foreign key (Member_id) references Member(Member_id));
+
+create table Book_Return(Issue_id int not null,Act_Date_of_Return date, Last_Days date,Late_Fee int,
+primary key(Issue_id),
+  foreign key (Issue_id) references Book_Issue(Issue_id));
+
+
+create table Late_Fee_Rule(From_days int not null, To_Days int not null,Amount int not null,
+primary key (From_days,To_Days,Amount));
+
